@@ -182,8 +182,8 @@ void removeritem(Mochila *mochila, int Espaco)
 
     ItemRemover[strcspn(ItemRemover, "\n")] = '\0';
 
-    for (int i = 0; i < mochila->numItens; i++) 
-    {
+	int i;
+    for (i = 0; i < mochila->numItens; i++) {
         if(strcmp(mochila->itens[i].nome, ItemRemover) == 0) 
         { 
             pos = i; 
@@ -201,8 +201,8 @@ void removeritem(Mochila *mochila, int Espaco)
     }
     else if (achado == 1) 
     { 
-        for (int i = pos; i< mochila->numItens - 1; i++)
-        { 
+    	int i;
+        for (i = pos; i< mochila->numItens - 1; i++){ 
             mochila->itens[i] = mochila->itens[i + 1];
         }
         mochila->numItens--;
@@ -229,7 +229,8 @@ void listaritens(Mochila *mochila, int Espaco)
     
     printf("%-20s|%-12s|%10s \n", "NOME", "TIPO", "QUANTIDADE"); 
     printf("-----------------------------------------\n");
-    for(int i = 0; i < mochila->numItens; i++) 
+    int i;
+	for(i = 0; i < mochila->numItens; i++) 
     {
         printf("%-20s|", mochila->itens[i].nome); 
         printf("%-12s|", mochila->itens[i].tipo); 
