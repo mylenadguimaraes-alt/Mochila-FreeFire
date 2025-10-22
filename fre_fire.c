@@ -44,6 +44,7 @@ void exibirMenu( Mochila *mochila,int * opcao, int tam_armazenamento);
 void inseriritem(Mochila *mochila, int Espaco); 
 void removeritem(Mochila * mochila, int Espaco); 
 void listaritens(Mochila * mochila, int Espaco);
+void buscaBinariaPorNome(Mochila * mochila, int Espaco);
 
 int main() { 
     int opcao = 0;
@@ -76,6 +77,9 @@ int main() {
             case 3: 
                 listaritens(&mochila, Tam_Mochila); 
             break;
+            case 4:
+                buscaBinariaPorNome(&mochila, Tam_Mochila);
+            break;
 
             case 0: 
                 printf("\n\nVoce esta saindo do programa\n");
@@ -104,7 +108,7 @@ int main() {
 // Apresenta o menu principal ao jogador, com destaque para status da ordenação.
 void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento) 
 {
-    printf("==================================================\n"); 
+    printf("\n==================================================\n"); 
     printf(" MOCHILA DE SOBREVIVENCIA - CODIGO DA ILHA\n");
     printf("==================================================\n");
     printf("Itens na Mochila: %d/%d \n\n", mochila->numItens, tam_armazenamento);
@@ -112,6 +116,7 @@ void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento)
     printf("1. Adicionar Item (Loot)\n"); 
     printf("2. Remover Item\n"); 
     printf("3. Listar Itens na Mochila\n"); 
+    printf("4. Buscar Item por Nome\n");
     printf("0. Sair\n"); 
     printf("-------------------------------\n"); 
     printf("Escolha uma opcao: "); 
@@ -225,10 +230,10 @@ void listaritens(Mochila *mochila, int Espaco)
         return;
     }
     printf("\n------------ITENS DA MOCHILA (%d/%d)------------\n", mochila->numItens, Espaco); 
-    printf("-----------------------------------------\n"); 
+    printf("-----------------------------------------------\n"); 
     
     printf("%-20s|%-12s|%10s \n", "NOME", "TIPO", "QUANTIDADE"); 
-    printf("-----------------------------------------\n");
+    printf("-----------------------------------------------\n");
     int i;
 	for(i = 0; i < mochila->numItens; i++) 
     {
@@ -236,7 +241,7 @@ void listaritens(Mochila *mochila, int Espaco)
         printf("%-12s|", mochila->itens[i].tipo); 
         printf("%-4d \n", mochila->itens[i].quantidade); 
     }
-    printf("-----------------------------------------\n\n"); 
+    printf("-----------------------------------------------\n\n"); 
     printf("Digite ENTER para continuar..."); 
     getchar();
 }
@@ -260,7 +265,48 @@ void listaritens(Mochila *mochila, int Espaco)
 // Realiza busca binária por nome, desde que a mochila esteja ordenada por nome. 
 // Se encontrar, exibe os dados do item buscado. 
 // Caso contrário, informa que não encontrou o item.
+void buscaBinariaPorNome(Mochila * mochila, int Espaco)
+{
+    char ItemBuscar [30]; 
+    int achado = -1;
+    int numero;
+    if (mochila->numItens == 0) 
+    {
+        printf("\n\nNao ha nenhum item na mochila\n"); 
+        printf("Digite ENTER para continuar..."); 
+        getchar(); 
+        return;
+    }
+    printf("\n---------------BUSCAR ITEM NA MOCHILA---------------\n\n");
+    printf("Digite o nome do item que deseja buscar: \n");
+    fgets(ItemBuscar, sizeof(ItemBuscar),stdin);
+    ItemBuscar[strcspn(ItemBuscar, "\n")] = '\0';
 
+    int i;
+    for (i = 0; i<mochila->numItens; i++)
+    {
+        if (strcmp(mochila->itens[i].nome, ItemBuscar) == 0)
+        {
+            achado = 1;
+            numero = i;
+            break;
+        }
+    }
+    if (achado == -1)
+    {
+        printf("\n Resultado: Item '%s' NAO foi encontrado na mochila!\n\n", ItemBuscar);
+    }
+    else
+    {
+        printf("\n-------Item Encontrado!-------\n\n");
+        printf("Nome: %s\n", mochila->itens[numero].nome);
+        printf("Tipo: %s\n", mochila->itens[numero].tipo);
+        printf("Quantidade: %d\n\n", mochila->itens[numero].quantidade);
+        printf("------------------------------\n\n");
+    }
+    printf("Digite ENTER para continuar..."); 
+    getchar();
+}
 
 
 
