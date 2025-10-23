@@ -20,12 +20,9 @@ void LimparBuffer () {
 typedef struct { 
     char nome [30]; 
     char tipo [20]; 
-    int quantidade; 
+    int quantidade;
+    int prioridade; 
 }Item;
-typedef struct No { 
-    Item dados; 
-    struct No *proximo; 
-}No;
 
 
 // Vetor mochila: 
@@ -37,9 +34,8 @@ typedef struct {
     int comparacoes; 
     int ordenadaPorNome; 
 } Mochila;
-typedef No* MochilaEncadeada;
 
-//------Funções do nível novato------
+
 void exibirMenu( Mochila *mochila,int * opcao, int tam_armazenamento); 
 void inseriritem(Mochila *mochila, int Espaco); 
 void removeritem(Mochila * mochila, int Espaco); 
@@ -48,7 +44,8 @@ void buscaBinariaPorNome(Mochila * mochila, int Espaco);
 
 int main() { 
     int opcao = 0;
-    Mochila mochila; mochila.numItens = 0; // inicia vazia 
+    Mochila mochila; 
+    mochila.numItens = 0; // inicia vazia 
     mochila.comparacoes = 0; 
     mochila.ordenadaPorNome = 0;
     // Menu principal com opções: 
@@ -109,16 +106,17 @@ int main() {
 void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento) 
 {
     printf("\n==================================================\n"); 
-    printf(" MOCHILA DE SOBREVIVENCIA - CODIGO DA ILHA\n");
+    printf(" PLANO DE FUGA - CODIGO DA ILHA (NIVEL MESTRE)\n");
     printf("==================================================\n");
     printf("Itens na Mochila: %d/%d \n\n", mochila->numItens, tam_armazenamento);
 
-    printf("1. Adicionar Item (Loot)\n"); 
-    printf("2. Remover Item\n"); 
-    printf("3. Listar Itens na Mochila\n"); 
-    printf("4. Buscar Item por Nome\n");
-    printf("0. Sair\n"); 
-    printf("-------------------------------\n"); 
+    printf("1. Adicionar Componente\n"); 
+    printf("2. Descartar Componente\n"); 
+    printf("3. Listar Componentes (Inventario)\n");
+    printf("4. Organizar Mochila (Ordenar Componentes)\n"); 
+    printf("5. Buscar Binaria por Componente-Chave(por nome)\n");
+    printf("0. Ativar TORRE DE FUGA (Sair)\n"); 
+    printf("---------------------------------------------------\n"); 
     printf("Escolha uma opcao: "); 
     
     scanf("%d", opcao); 
@@ -134,18 +132,18 @@ void inseriritem(Mochila *mochila, int Espaco)
     if(mochila->numItens >= Espaco) 
     {
         printf("\n\nMochila cheia!\n"); 
-        printf("Se quiser inserir um loot, remova um item!\n"); 
+        printf("Se quiser inserir um componente, remova um deles!\n"); 
         getchar(); 
         return;
     }
     
     int idx = mochila->numItens; 
-    printf("\n---------------INSERIR ITEM---------------");
+    printf("\n---------------Coletando Novo Componente---------------");
     
-    printf("\n\nNome do item: "); 
+    printf("\n\nNome: "); 
     fgets(mochila->itens[idx].nome, sizeof(mochila->itens[idx].nome), stdin);
     
-    printf("\nTipo do item: "); 
+    printf("\nTipo (Estrutural, Eletrico, Energia): "); 
     fgets(mochila->itens[idx].tipo, sizeof(mochila->itens[idx].tipo), stdin);
     
     mochila->itens[idx].nome[strcspn(mochila->itens[idx].nome, "\n")] = '\0';
@@ -155,11 +153,12 @@ void inseriritem(Mochila *mochila, int Espaco)
     scanf("%d", &mochila->itens[idx].quantidade); 
     LimparBuffer();
 
+    printf("\nPririodade de Montagem(1-5): "); 
+    scanf("%d", &mochila->itens[idx].prioridade); 
+    LimparBuffer();
+
     mochila->numItens += 1; 
-    printf("\n\nItem %s armazenado com sucesso!\n", mochila->itens[idx].nome);
-    
-    printf("Digite ENTER para continuar....\n"); 
-    getchar();
+    printf("\n\nComponente %s adicionado!\n", mochila->itens[idx].nome);
 
     listaritens(mochila, Espaco);
 }
