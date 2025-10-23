@@ -32,8 +32,9 @@ typedef struct {
     Item itens[Tam_Mochila]; 
     int numItens; 
     int comparacoes; 
-    int ordenadaPorNome; 
+    char ordenadaPorNome[100]; 
 } Mochila;
+
 
 
 void exibirMenu( Mochila *mochila,int * opcao, int tam_armazenamento); 
@@ -47,7 +48,7 @@ int main() {
     Mochila mochila; 
     mochila.numItens = 0; // inicia vazia 
     mochila.comparacoes = 0; 
-    mochila.ordenadaPorNome = 0;
+    strcpy(mochila.ordenadaPorNome, "NAO ORDENADO");
     // Menu principal com opções: 
     // 1. Adicionar um item 
     // 2. Remover um item 
@@ -108,7 +109,8 @@ void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento)
     printf("\n==================================================\n"); 
     printf(" PLANO DE FUGA - CODIGO DA ILHA (NIVEL MESTRE)\n");
     printf("==================================================\n");
-    printf("Itens na Mochila: %d/%d \n\n", mochila->numItens, tam_armazenamento);
+    printf("Itens na Mochila: %d/%d \n", mochila->numItens, tam_armazenamento);
+	printf("Status da Ordenacao por Nome: %s \n\n", mochila->ordenadaPorNome);
 
     printf("1. Adicionar Componente\n"); 
     printf("2. Descartar Componente\n"); 
@@ -142,22 +144,43 @@ void inseriritem(Mochila *mochila, int Espaco)
     
     printf("\n\nNome: "); 
     fgets(mochila->itens[idx].nome, sizeof(mochila->itens[idx].nome), stdin);
-    
-    printf("\nTipo (Estrutural, Eletrico, Energia): "); 
-    fgets(mochila->itens[idx].tipo, sizeof(mochila->itens[idx].tipo), stdin);
-    
     mochila->itens[idx].nome[strcspn(mochila->itens[idx].nome, "\n")] = '\0';
-    mochila->itens[idx].tipo[strcspn(mochila->itens[idx].tipo, "\n")] = '\0';
-
+    
+    int tipojafoi = -1;
+    do
+	{
+    	
+    	if (tipojafoi == 1)
+    	{
+    		printf("\n\nAlerta: Valor incompativel, tente novamente!!\n\n");
+		}
+		
+    	printf("\nTipo (Estrutural, Eletrico, Energia): "); 
+    	fgets(mochila->itens[idx].tipo, sizeof(mochila->itens[idx].tipo), stdin);
+    	mochila->itens[idx].tipo[strcspn(mochila->itens[idx].tipo, "\n")] = '\0';
+    	
+		tipojafoi = 1;
+	}while( (strcmp(mochila->itens[idx].tipo, "Estrutural") != 0) && (strcmp(mochila->itens[idx].tipo, "Eletrico") != 0) && (strcmp(mochila->itens[idx].tipo, "Energia") != 0));
+	
     printf("\nQuantidade: "); 
     scanf("%d", &mochila->itens[idx].quantidade); 
     LimparBuffer();
 
-    printf("\nPririodade de Montagem(1-5): "); 
-    scanf("%d", &mochila->itens[idx].prioridade); 
-    LimparBuffer();
-
-    mochila->numItens += 1; 
+	int prijafoi = -1;
+	do{
+		if (prijafoi == 1)
+    	{
+    		printf("\n\nAlerta: Valor incompativel, tente novamente!!\n\n");
+		}
+		
+    	printf("\nPririodade de Montagem(1-5): "); 
+    	scanf("%d", &mochila->itens[idx].prioridade); 
+    	LimparBuffer();
+    	prijafoi = 1;
+    	
+	}while((mochila->itens[idx].prioridade<1) || (mochila->itens[idx].prioridade>5));
+    
+	mochila->numItens += 1; 
     printf("\n\nComponente %s adicionado!\n", mochila->itens[idx].nome);
 
     listaritens(mochila, Espaco);
