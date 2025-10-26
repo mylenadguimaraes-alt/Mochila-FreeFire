@@ -56,6 +56,7 @@ void listaritens(Mochila * mochila, int Espaco);
 void menuDeOrdenacao(Mochila *mochila, CriterioOrdenacao *ordenacao);
 void insertionSort(Mochila *mochila, CriterioOrdenacao ordenacao);
 void buscaBinariaPorNome(Mochila * mochila, int Espaco);
+void limparTela();
 
 int main() { 
     int opcao = 0;
