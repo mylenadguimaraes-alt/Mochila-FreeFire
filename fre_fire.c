@@ -100,15 +100,18 @@ int main() {
     			}
 
     			listaritens(&mochila, Tam_Mochila);
+    			limparTela();
     		
             break;
 			}
             case 2: 
                 removeritem(&mochila, Tam_Mochila); 
+                limparTela();
             break;
 
             case 3: 
                 listaritens(&mochila, Tam_Mochila); 
+                limparTela();
             break;
             case 4:
             {
@@ -131,8 +134,13 @@ int main() {
         			listaritens(&mochila, Tam_Mochila);
         			strcpy(ordem, "NAO ORDENADO");
     			}
+    			limparTela();
             break;
         	}
+        	case 5:
+        		buscaBinariaPorNome(&mochila, Tam_Mochila);
+        		limparTela();
+        	break;
 
             case 0: 
                 printf("\n\nVoce esta saindo do programa\n");
@@ -144,6 +152,7 @@ int main() {
                 printf("\n\nValor invalido! Voce sera mandado de volta ao menu principal\n");
                 printf("Digite ENTER para continuar..."); 
                 getchar();
+                limparTela();
             break;
         }
     } while(opcao != 0);
@@ -154,7 +163,18 @@ int main() {
 
 // limparTela(): 
 // Simula a limpeza da tela imprimindo várias linhas em branco.
+void limparTela()
+{
+	int i;
+	for (i = 0; i < 50; i++){
+        printf("\n");
+    }
+}
+
+
     
+
+
 // exibirMenu():
 // Apresenta o menu principal ao jogador, com destaque para status da ordenação.
 void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento) 
@@ -420,8 +440,12 @@ void insertionSort(Mochila *mochila, CriterioOrdenacao ordenacao)
         mochila->itens[j + 1] = key;
     }
 
-    mochila->ordenadaPorNome = (ordenacao == ORDENACAO_NOME);
-    
+    if (ordenacao == ORDENACAO_NOME)	{
+    	mochila->ordenadaPorNome = 1;
+	}
+	else{
+    	mochila->ordenadaPorNome = 0;
+	}
     printf("\n\nMochila organizada por %s", Ordempor);
 	printf("\nAnalise de Desempenho: Foram necessarias %d comparacoes.\n\n", mochila->comparacoes);
     
@@ -437,45 +461,57 @@ void insertionSort(Mochila *mochila, CriterioOrdenacao ordenacao)
 // Caso contrário, informa que não encontrou o item.
 void buscaBinariaPorNome(Mochila * mochila, int Espaco)
 {
-    char ItemBuscar [30]; 
-    int achado = -1;
-    int numero;
-    if (mochila->numItens == 0) 
-    {
-        printf("\n\nNao ha nenhum item na mochila\n"); 
-        printf("Digite ENTER para continuar..."); 
-        getchar(); 
-        return;
-    }
-    printf("\n---------------BUSCAR ITEM NA MOCHILA---------------\n\n");
-    printf("Digite o nome do item que deseja buscar: \n");
-    fgets(ItemBuscar, sizeof(ItemBuscar),stdin);
+	if (mochila->ordenadaPorNome == 0)
+	{
+		printf("\n\nALERTA: A busca binaria requer que a mochila esteja ordenada por NOME.\n");
+		printf("Use a opcao 4 para organizar a mochila primeiro.\n\n");
+		printf("Digite ENTER para continuar..."); 
+    	getchar();
+    	return;
+	}
+	char ItemBuscar[30];
+	printf("\n----Busca Binaria por Componente-Chave----\n");
+    printf("\nNome do componente a buscar: ");
+    fgets(ItemBuscar, sizeof(ItemBuscar), stdin);
     ItemBuscar[strcspn(ItemBuscar, "\n")] = '\0';
 
-    int i;
-    for (i = 0; i<mochila->numItens; i++)
+    int esquerda = 0;
+    int direita = mochila->numItens - 1;
+    int meio;
+    int achou = 0;
+
+    while (esquerda <= direita)
     {
-        if (strcmp(mochila->itens[i].nome, ItemBuscar) == 0)
+        meio = (esquerda + direita) / 2;
+        int cmp = strcmp(mochila->itens[meio].nome, ItemBuscar);
+
+        if (cmp == 0)
         {
-            achado = 1;
-            numero = i;
+            achou = 1;
             break;
         }
+        else if (cmp < 0)
+            esquerda = meio + 1;
+        else
+            direita = meio - 1;
     }
-    if (achado == -1)
+
+    if (achou)
     {
-        printf("\n Resultado: Item '%s' NAO foi encontrado na mochila!\n\n", ItemBuscar);
+        printf("\n\n---Componente-Chave Encontrado!---\n");
+        printf("Nome: %s, ", mochila->itens[meio].nome);
+        printf("Tipo: %s, ", mochila->itens[meio].tipo);
+        printf("Qtd: %d, ", mochila->itens[meio].quantidade);
+        printf("Prio: %d\n", mochila->itens[meio].prioridade);
     }
     else
     {
-        printf("\n-------Item Encontrado!-------\n\n");
-        printf("Nome: %s\n", mochila->itens[numero].nome);
-        printf("Tipo: %s\n", mochila->itens[numero].tipo);
-        printf("Quantidade: %d\n\n", mochila->itens[numero].quantidade);
-        printf("------------------------------\n\n");
+        printf("\n'%s' NAO foi encontrado!\n", ItemBuscar);
     }
-    printf("Digite ENTER para continuar..."); 
+
+    printf("\nDigite ENTER para continuar...");
     getchar();
+	
 }
 
 
