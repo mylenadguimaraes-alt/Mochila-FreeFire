@@ -2,9 +2,9 @@
 #include <string.h> 
 #include <stdlib.h> 
 #include <stdbool.h> 
-// Código da Ilha – Edição Free Fire 
-// Nível: Mestre // Este programa simula o gerenciamento avançado de uma mochila com componentes coletados durante a fuga de uma ilha. 
-// Ele introduz ordenação com critérios e busca binária para otimizar a gestão dos recursos.
+// CÃ³digo da Ilha â€“ EdiÃ§Ã£o Free Fire 
+// NÃ­vel: Mestre // Este programa simula o gerenciamento avanÃ§ado de uma mochila com componentes coletados durante a fuga de uma ilha. 
+// Ele introduz ordenaÃ§Ã£o com critÃ©rios e busca binÃ¡ria para otimizar a gestÃ£o dos recursos.
 
 //Quantidade maxima de itens na mochila 
 #define Tam_Mochila 10
@@ -16,7 +16,7 @@ void LimparBuffer () {
 
 
 // Enum CriterioOrdenacao: 
-// Define os critérios possíveis para a ordenação dos itens (nome, tipo ou prioridade).
+// Define os critÃ©rios possÃ­veis para a ordenaÃ§Ã£o dos itens (nome, tipo ou prioridade).
 typedef enum {
     ORDENACAO_NENHUMA = 0,
     ORDENACAO_NOME = 1,
@@ -27,7 +27,7 @@ typedef enum {
 
 // Struct Item: 
 // Representa um componente com nome, tipo, quantidade e prioridade (1 a 5). 
-// A prioridade indica a importância do item na montagem do plano de fuga.
+// A prioridade indica a importÃ¢ncia do item na montagem do plano de fuga.
 typedef struct { 
     char nome [30]; 
     char tipo [20]; 
@@ -37,8 +37,8 @@ typedef struct {
 
 
 // Vetor mochila: 
-// Armazena até 10 itens coletados. 
-// Variáveis de controle: numItens (quantidade atual), comparacoes (análise de desempenho), ordenadaPorNome (para controle da busca binária).
+// Armazena atÃ© 10 itens coletados. 
+// VariÃ¡veis de controle: numItens (quantidade atual), comparacoes (anÃ¡lise de desempenho), ordenadaPorNome (para controle da busca binÃ¡ria).
 typedef struct { 
     Item itens[Tam_Mochila]; 
     int numItens; 
@@ -69,16 +69,16 @@ int main() {
     int status = 0;
     
      CriterioOrdenacao criterio = ORDENACAO_NENHUMA;
-    // Menu principal com opções: 
+    // Menu principal com opÃ§Ãµes: 
     // 1. Adicionar um item 
     // 2. Remover um item 
     // 3. Listar todos os itens 
-    // 4. Ordenar os itens por critério (nome, tipo, prioridade) 
-    // 5. Realizar busca binária por nome 
+    // 4. Ordenar os itens por critÃ©rio (nome, tipo, prioridade) 
+    // 5. Realizar busca binÃ¡ria por nome 
     // 0. Sair
 
-    // A estrutura switch trata cada opção chamando a função correspondente.
-    // A ordenação e busca binária exigem que os dados estejam bem organizados.
+    // A estrutura switch trata cada opÃ§Ã£o chamando a funÃ§Ã£o correspondente.
+    // A ordenaÃ§Ã£o e busca binÃ¡ria exigem que os dados estejam bem organizados.
     do 
     { 
         exibirMenu(&mochila,&opcao, Tam_Mochila);
@@ -88,7 +88,7 @@ int main() {
             {
             	
             	inseriritem(&mochila, Tam_Mochila);
-    			// Se j� houver um crit�rio de ordena��o ativo, reordena automaticamente
+    			// Se já houver um critério de ordenação ativo, reordena automaticamente
     			if (criterio != ORDENACAO_NENHUMA)
     			{
         			insertionSort(&mochila, criterio);
@@ -163,7 +163,7 @@ int main() {
 
 
 // limparTela(): 
-// Simula a limpeza da tela imprimindo várias linhas em branco.
+// Simula a limpeza da tela imprimindo vÃ¡rias linhas em branco.
 void limparTela()
 {
 	int i;
@@ -177,7 +177,7 @@ void limparTela()
 
 
 // exibirMenu():
-// Apresenta o menu principal ao jogador, com destaque para status da ordenação.
+// Apresenta o menu principal ao jogador, com destaque para status da ordenaÃ§Ã£o.
 void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento) 
 {
     printf("\n==================================================\n"); 
@@ -200,9 +200,9 @@ void exibirMenu(Mochila * mochila, int * opcao, int tam_armazenamento)
 }
 
 // inserirItem(): 
-// Adiciona um novo componente à mochila se houver espaço.
+// Adiciona um novo componente Ã  mochila se houver espaÃ§o.
 // Solicita nome, tipo, quantidade e prioridade. 
-// Após inserir, marca a mochila como "não ordenada por nome".
+// ApÃ³s inserir, marca a mochila como "nÃ£o ordenada por nome".
 void inseriritem(Mochila *mochila, int Espaco) 
 {
     if(mochila->numItens >= Espaco) 
@@ -348,8 +348,8 @@ void listaritens(Mochila *mochila, int Espaco)
 
 // menuDeOrdenacao(): 
 // Permite ao jogador escolher como deseja ordenar os itens. 
-// Utiliza a função insertionSort() com o critério selecionado. 
-// Exibe a quantidade de comparações feitas (análise de desempenho).
+// Utiliza a funÃ§Ã£o insertionSort() com o critÃ©rio selecionado. 
+// Exibe a quantidade de comparaÃ§Ãµes feitas (anÃ¡lise de desempenho).
 void menuDeOrdenacao(Mochila *mochila, CriterioOrdenacao * ordenacao)
 {
 	if (mochila->numItens == 0)
@@ -393,10 +393,10 @@ void menuDeOrdenacao(Mochila *mochila, CriterioOrdenacao * ordenacao)
 
 
 // insertionSort(): 
-// Implementação do algoritmo de ordenação por inserção. 
-// Funciona com diferentes critérios de ordenação: 
-// - Por nome (ordem alfabética) 
-// - Por tipo (ordem alfabética) 
+// ImplementaÃ§Ã£o do algoritmo de ordenaÃ§Ã£o por inserÃ§Ã£o. 
+// Funciona com diferentes critÃ©rios de ordenaÃ§Ã£o: 
+// - Por nome (ordem alfabÃ©tica) 
+// - Por tipo (ordem alfabÃ©tica) 
 // - Por prioridade (da mais alta para a mais baixa)
 void insertionSort(Mochila *mochila, CriterioOrdenacao ordenacao)
 {
@@ -457,9 +457,9 @@ void insertionSort(Mochila *mochila, CriterioOrdenacao ordenacao)
 
 
 // buscaBinariaPorNome(): 
-// Realiza busca binária por nome, desde que a mochila esteja ordenada por nome. 
+// Realiza busca binÃ¡ria por nome, desde que a mochila esteja ordenada por nome. 
 // Se encontrar, exibe os dados do item buscado. 
-// Caso contrário, informa que não encontrou o item.
+// Caso contrÃ¡rio, informa que nÃ£o encontrou o item.
 void buscaBinariaPorNome(Mochila * mochila, int Espaco)
 {
 	if (mochila->ordenadaPorNome == 0)
