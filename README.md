@@ -23,27 +23,33 @@ O projeto foi criado para praticar conceitos fundamentais de Estruturas de Dados
 
 | Arquivo | Descrição |
 |----------|------------|
-| Codigo_da_Ilha.c | Código-fonte do projeto |
+| free_fire.c | Código-fonte do projeto |
+| free_fire.exe | Executável do projeto |
 
 ## Como Executar
 
+### Utilizando o Executável
+
+1. Baixe o arquivo `Codigo_da_Ilha.exe`.
+2. Execute o programa.
+3. Utilize o terminal para interagir com o sistema.
+
 ### Compilando o Código-Fonte
 
-```bash
+
 gcc Codigo_da_Ilha.c -o Codigo_da_Ilha
-```
+
 
 Para executar:
 
-```bash
+
 ./Codigo_da_Ilha
-```
 
 No Windows:
 
-```bash
+
 Codigo_da_Ilha.exe
-```
+
 
 ## Conceitos Aplicados
 
